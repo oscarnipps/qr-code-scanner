@@ -12,9 +12,11 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
+import com.budiyev.android.codescanner.AutoFocusMode;
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.DecodeCallback;
 import com.budiyev.android.codescanner.ErrorCallback;
+import com.budiyev.android.codescanner.ScanMode;
 import com.example.barcode_scanner.databinding.ActivityMainBinding;
 import com.google.zxing.Result;
 
@@ -33,6 +35,14 @@ public class MainActivity extends AppCompatActivity {
         setUpPermission();
 
         mCodeScanner = new CodeScanner(this, binding.scannerView);
+
+        mCodeScanner.setCamera(CodeScanner.CAMERA_BACK);
+
+        mCodeScanner.setFormats(CodeScanner.ALL_FORMATS);
+
+        mCodeScanner.setAutoFocusMode(AutoFocusMode.SAFE);
+
+        mCodeScanner.setScanMode(ScanMode.CONTINUOUS);
 
         mCodeScanner.setDecodeCallback(new DecodeCallback() {
             @Override
