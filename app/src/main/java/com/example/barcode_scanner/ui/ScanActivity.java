@@ -1,6 +1,7 @@
-package com.example.barcode_scanner;
+package com.example.barcode_scanner.ui;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,13 +18,14 @@ import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.DecodeCallback;
 import com.budiyev.android.codescanner.ErrorCallback;
 import com.budiyev.android.codescanner.ScanMode;
+import com.example.barcode_scanner.data.Constants;
+import com.example.barcode_scanner.R;
 import com.example.barcode_scanner.databinding.ActivityMainBinding;
 import com.google.zxing.Result;
 
-public class MainActivity extends AppCompatActivity {
-    public static final String TAG = MainActivity.class.getSimpleName();
+public class ScanActivity extends AppCompatActivity {
+    public static final String TAG = ScanActivity.class.getSimpleName();
     private CodeScanner mCodeScanner;
-    private static final int CAMERA_REQUEST_CODE = 100;
     private ActivityMainBinding binding;
 
     @Override
@@ -34,6 +36,10 @@ public class MainActivity extends AppCompatActivity {
 
         setUpPermission();
 
+        setUpCodeScanner();
+    }
+
+    private void setUpCodeScanner() {
         mCodeScanner = new CodeScanner(this, binding.scannerView);
 
         mCodeScanner.setCamera(CodeScanner.CAMERA_BACK);
@@ -51,9 +57,18 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         String scannedResult = result.getText();
-                        Toast.makeText(MainActivity.this, "scan success", Toast.LENGTH_SHORT).show();
-                        binding.scannerResult.setText(scannedResult);
-                        //use scanned result
+
+                        Toast.makeText(ScanActivity.this, "scan success", Toast.LENGTH_SHORT).show();
+
+                        Log.d(TAG, "scanned result : " + scannedResult);
+
+                        Intent intent = new Intent();
+
+                        intent.putExtra(Constants.SCANNED_RESULT_DATA_KEY,scannedResult);
+
+                        setResult(RESULT_OK,intent);
+
+                        finish();
                     }
                 });
             }
@@ -65,21 +80,25 @@ public class MainActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(MainActivity.this, "scan failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ScanActivity.this, "scan failed", Toast.LENGTH_SHORT).show();
                         Log.d(TAG, "code scan failed with error : " + error.getLocalizedMessage());
                     }
                 });
             }
         });
-
-
     }
 
     private void setUpPermission() {
         int cameraPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
 
         if (cameraPermission != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this ,new String[]{Manifest.permission.CAMERA},CAMERA_REQUEST_CODE);
+
+            ActivityCompat.requestPermissions(
+                    this ,
+                    new String[]{Manifest.permission.CAMERA},
+                    Constants.CAMERA_REQUEST_CODE
+            );
+
             return;
         }
 
@@ -96,5 +115,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         mCodeScanner.releaseResources();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        Toast.makeText(ScanActivity.this, "scan failed due to low memory", Toast.LENGTH_SHORT).show();
     }
 }

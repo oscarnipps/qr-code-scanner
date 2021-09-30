@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">barcode-scanner</string>
+    <string name="qr_check_loading_message">wait a few seconds as QR code is being validated ..</string>
 </resources>

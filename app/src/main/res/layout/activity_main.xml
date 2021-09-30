@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#343434"
-        tools:context=".MainActivity">
+        tools:context=".ui.ScanActivity">
 
         <com.budiyev.android.codescanner.CodeScannerView
             android:id="@+id/scanner_view"
@@ -32,18 +32,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/scanner_view" />
 
-        <TextView
-            android:id="@+id/scanner_result"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:fontFamily="@font/raleway_medium"
-            android:text="....."
-            android:textColor="#ffffff"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/scanner_info_text" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
