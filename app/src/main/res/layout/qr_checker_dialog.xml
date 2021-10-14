@@ -10,6 +10,7 @@
 
 
         <LinearLayout
+            android:visibility="visible"
             android:id="@+id/loading_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -70,6 +71,7 @@
                 android:src="@drawable/ic_synced" />
 
             <TextView
+                android:id="@+id/success_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -90,7 +92,8 @@
                 android:fontFamily="@font/raleway_medium"
                 android:paddingStart="24dp"
                 android:paddingEnd="24dp"
-                android:text="finish"
+                android:text="rescan"
+                android:textColor="#ffffff"
                 android:textStyle="bold"
                 app:backgroundTint="#64DD17" />
 
@@ -125,7 +128,6 @@
                 android:textAlignment="center"
                 android:textStyle="bold" />
 
-
             <Button
                 android:id="@+id/close"
                 android:layout_width="wrap_content"
@@ -135,7 +137,7 @@
                 android:fontFamily="@font/raleway_medium"
                 android:paddingStart="24dp"
                 android:paddingEnd="24dp"
-                android:text="close"
+                android:text="rescan"
                 android:textColor="@color/text_color_white"
                 android:textStyle="bold"
                 app:backgroundTint="@color/colorAccent" />

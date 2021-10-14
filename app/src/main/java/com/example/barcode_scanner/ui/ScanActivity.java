@@ -58,7 +58,7 @@ public class ScanActivity extends AppCompatActivity {
                     public void run() {
                         String scannedResult = result.getText();
 
-                        Toast.makeText(ScanActivity.this, "scan success", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(ScanActivity.this, "scan success", Toast.LENGTH_SHORT).show();
 
                         Log.d(TAG, "scanned result : " + scannedResult);
 

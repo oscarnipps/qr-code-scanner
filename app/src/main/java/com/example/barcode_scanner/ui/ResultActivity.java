@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -13,13 +15,11 @@ import androidx.databinding.DataBindingUtil;
 import com.example.barcode_scanner.R;
 import com.example.barcode_scanner.data.CheckQrCodeResponse;
 import com.example.barcode_scanner.data.Constants;
-import com.example.barcode_scanner.data.QrCodeSchema;
 import com.example.barcode_scanner.databinding.ActivityResultBinding;
 import com.example.barcode_scanner.databinding.QrCheckerDialogBinding;
 import com.example.barcode_scanner.network.CodeCheckerService;
 import com.example.barcode_scanner.network.ServiceGenerator;
 
-import org.jetbrains.annotations.NotNull;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -68,17 +68,33 @@ public class ResultActivity extends AppCompatActivity {
     }
 
     private void checkCodeWithServer(String scannedCode) {
-        CodeCheckerService service = ServiceGenerator.getService(CodeCheckerService.class);
+        CodeCheckerService service = ServiceGenerator.createService(CodeCheckerService.class);
 
-        service.checkQrCodeInServer(new QrCodeSchema(scannedCode)).enqueue(new Callback<Response<CheckQrCodeResponse>>() {
+        service.checkQrCodeInServer(scannedCode).enqueue(new Callback<CheckQrCodeResponse>() {
             @Override
-            public void onResponse(@NotNull Call<Response<CheckQrCodeResponse>> call, @NotNull Response<Response<CheckQrCodeResponse>> response) {
+            public void onResponse(@NonNull Call<CheckQrCodeResponse> call, @NonNull Response<CheckQrCodeResponse> response) {
+                Log.d(TAG,"response code : " + response.code());
+                Log.d(TAG,"response body : " + response.body());
 
+                if (response.code() == 200 && response.body() != null) {
+                    qrCheckerDialogBinding.successView.setVisibility(View.VISIBLE);
+                    qrCheckerDialogBinding.loadingView.setVisibility(View.GONE);
+                    qrCheckerDialogBinding.successMessage.setText(response.body().getMessage());
+                    return;
+                }
+
+                qrCheckerDialogBinding.loadingView.setVisibility(View.GONE);
+                qrCheckerDialogBinding.errorView.setVisibility(View.VISIBLE);
+                qrCheckerDialogBinding.errorMessage.setText(response.body().getMessage());
             }
 
             @Override
-            public void onFailure(@NotNull Call<Response<CheckQrCodeResponse>> call, @NotNull Throwable t) {
+            public void onFailure(@NonNull Call<CheckQrCodeResponse> call,  @NonNull Throwable t) {
+                Log.d(TAG,"error message : " + t.getLocalizedMessage());
 
+                qrCheckerDialogBinding.errorView.setVisibility(View.VISIBLE);
+                qrCheckerDialogBinding.loadingView.setVisibility(View.GONE);
+                qrCheckerDialogBinding.errorMessage.setText(t.getLocalizedMessage());
             }
         });
     }
