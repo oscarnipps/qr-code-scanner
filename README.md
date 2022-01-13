@@ -1,5 +1,5 @@
 # QR Code Scanner 📱
-android application that implements a qr-code scanner
+Mobile application that implements a QR code scanner
 
 
 # App Screens UI 🎨
