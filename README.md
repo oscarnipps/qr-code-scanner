@@ -1,13 +1,12 @@
 # QR Code Scanner 📱
 android application that implements a qr-code scanner
 
-# Architecture  🏗
-This app uses multiple activities
 
+# App Screens UI 🎨
 
 |         |            | 
 | ------------- |:----------:| 
-| ![alt text](https://github.com/oscarnipps/timer-app/blob/58fa4a143516eeac149ff7cede184135ee4c4eb8/timers_start_active.png "")      | ![alt text](https://github.com/oscarnipps/timer-app/blob/58fa4a143516eeac149ff7cede184135ee4c4eb8/timers_start_active.png "") | 
+| ![alt text](https://github.com/oscarnipps/qr-code-scanner/blob/be9532f67424ed3ccb00d3f92d230cdf04cf6e7d/home.png "")      | ![alt text](https://github.com/oscarnipps/qr-code-scanner/blob/be9532f67424ed3ccb00d3f92d230cdf04cf6e7d/capture.png "") | 
 
 
 
